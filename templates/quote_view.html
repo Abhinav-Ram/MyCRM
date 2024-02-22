@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation Details</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+    <div class="container mx-auto p-4 flex flex-wrap justify-between">
+
+        <!-- Company Details -->
+        <div class="w-full md:w-1/2 mb-8">
+            <div class="inline-flex">
+                <img class="h-12" src="{{url_for('static', filename='media/pctlogo.png')}}" />
+                <h1 class="ml-3 pctcolor text-3xl font-bold mt-2">{{ cdata["name"] }}</span></h1>
+            </div>
+            <p class="text-gray-600">{{ cdata["slogan"] }}</p>
+
+            <div class="pt-2 pb-2">
+                <i>
+                    <p>{{ cdata["address"]["door_no"] }}, {{ cdata["address"]["flat_no"] }}, {{
+                        cdata["address"]["floor"] }},</p>
+                    <p>{{ cdata["address"]["street"] }}, {{ cdata["address"]["area"] }},</p>
+                    <p>{{ cdata["address"]["city"] }}, {{ cdata["address"]["state"] }},</p>
+                    <p>{{ cdata["address"]["postal_code"] }}, {{ cdata["address"]["country"] }}</p>
+                </i>
+            </div>
+
+            <p>Mail ID: {{ cdata["email"] }}</p>
+            <p>Contact: {{ cdata["phone"] }}</p>
+        </div>
+
+        <!-- Lead ID, Salesperson Details, Dates -->
+        <div class="mt-12 justify-end">
+            <p class="mb-2"><span class="font-semibold">Lead ID:</span> {{ lead.enquiry_number }}</p>
+            <p class="mb-2"><span class="font-semibold">Salesperson Name:</span> {{ lead.sales_account_mgr.name }}</p>
+            <p class="mb-2"><span class="font-semibold">Customer Name:</span> {{ lead.customer.name }}</p>
+            <p class="mb-2"><span class="font-semibold">Billing Date:</span> {{ today }}</p>
+            <p class="mb-2"><span class="font-semibold">Closure Date:</span> {{ lead.closure_date }}</p>
+        </div>
+
+        <table class="min-w-full w-max bg-white border border-gray-600 border-collapse rounded shadow-md">
+            <thead class="bg-gray-200">
+                <tr class="border border-gray-600">
+                    <th colspan="5" class="border border-gray-600 px-4 py-2">Product Info</th>
+                    <th colspan="4" class="border border-gray-600 px-4 py-2">Selling Price</th>
+                    <th colspan="5" class="border border-gray-600 px-4 py-2">Buying Price</th>
+                </tr>
+                <tr>
+                    <th class="border border-gray-600 px-4 py-2">S.No.</th>
+                    <th class="border border-gray-600 px-4 py-2">Name</th>
+                    <th class="border border-gray-600 px-4 py-2">Description</th>
+                    <th class="border border-gray-600 px-4 py-2">UOM</th>
+                    <th class="border border-gray-600 px-4 py-2">Qty</th>
+                    <th class="border border-gray-600 px-4 py-2">Unit price</th>
+                    <th class="border border-gray-600 px-4 py-2">GST</th>
+                    <th class="border border-gray-600 px-4 py-2">Including GST</th>
+                    <th class="border border-gray-600 px-4 py-2">Final Transfer Price</th>
+                    <th class="border border-gray-600 px-4 py-2">Qty</th>
+                    <th class="border border-gray-600 px-4 py-2">Unit Price</th>
+                    <th class="border border-gray-600 px-4 py-2">GST</th>
+                    <th class="border border-gray-600 px-4 py-2">Including GST</th>
+                    <th class="border border-gray-600 px-4 py-2">Total</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% set grand_selling_total = namespace(value=0) %}
+                {% set grand_buying_total = namespace(value=0) %}
+
+                {% for i in range(quote.items['product_names']|length) %}
+                <tr>
+                    {% set total_amount = quote.items['total_amounts'][i] | float %}
+                    {% set amount = quote.items['amounts'][i] | float %}
+                    {% set quantity = quote.items['quantities'][i] | float %}
+                    {% set unit_selling_price = (total_amount) / quantity %}
+                    {% set gst = cdata["gstpercent"] %}
+                    {% set including_selling_gst = unit_selling_price * (1 + gst / 100) %}
+                    {% set ftp_selling = including_selling_gst * quantity %}
+                    {% set grand_selling_total.value = grand_selling_total.value + ftp_selling %}
+                    {% set unit_buying_price = quote.items['rates'][i] | float %}
+                    {% set including_buying_gst = unit_buying_price * (1 + gst / 100) %}
+                    {% set ftp_buying = including_buying_gst * quantity %}
+                    {% set grand_buying_total.value = grand_buying_total.value + ftp_buying %}
+                    <td class="border border-gray-600 px-4 py-2">{{ i + 1 }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ quote.items['product_names'][i] }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ quote.items['product_descriptions'][i] }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ quote.items['uoms'][i] }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ quantity }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ unit_selling_price }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ cdata["gstpercent"] }}%</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ including_selling_gst }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ ftp_selling }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ quantity }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ unit_buying_price }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ cdata["gstpercent"] }}%</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ including_buying_gst }}</td>
+                    <td class="border border-gray-600 px-4 py-2">{{ ftp_buying }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="7" class="border border-gray-600 px-4 py-2"></td>
+                    <th class="border border-gray-600 px-4 py-2">Grand Total:</th>
+                    <td class="border border-gray-600 px-4 py-2">{{ grand_selling_total.value }}</td>
+                    <td colspan="3" class="border border-gray-600 px-4 py-2"></td>
+                    <th class="border border-gray-600 px-4 py-2">Grand Total:</th>
+                    <td class="border border-gray-600 px-4 py-2">{{ grand_buying_total.value }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="border border-gray-300 rounded-lg p-6">
+            <h2 class="text-lg font-semibold mb-4">TERMS and CONDITIONS for Supply of HARDWARE and INSTALLATION</h2>
+            <ol class="list-decimal pl-6">
+                <li class="mb-2">DELIVERY TIMELINE: Unless otherwise mentioned, Any Deliveries of Hardware based on the
+                    OEM Commitment only</li>
+                <li class="mb-2">INSTALLATION: Unless otherwise mentioned separately, Installation is not included in
+                    the commercial proposal and it would be charged separately based on scope of work defined by PCT.
+                </li>
+                <li class="mb-2">OTHER TERMS: Apart from the Materials and Services mentioned in the commercial
+                    proposal, All other materials and services will be charged additional</li>
+                <li class="mb-2">OTHER COMMITMENTS: If there is any delay on the client side, Our commitment date of
+                    completion and delivery would vary accordingly.</li>
+                <li class="mb-2">PAYMENT TERMS: AS AGREED TERMS in the commercial proposal: NOTE: Our payment does not
+                    depend on the Client side delays</li>
+                <li class="mb-2">OTHER TERMS: At any point of time, DATA will not be our responsibility, Client should
+                    take a back up of their Data at any time they provide the hardware</li>
+            </ol>
+        </div>
+    </div>
+    <div class="mb-4 mr-4 mt-12 flex flex-col items-end">
+        <div class="border-b w-32 mb-2">
+            <img src="{{url_for('static', filename='media/digitalsign.png')}}" />
+        </div> <!-- Line for the signature -->
+        <p class="mb-0">Authorized Signatory:</p>
+        <!-- Add space for the signature -->
+    </div>
+
+
+</body>
+
+</html>

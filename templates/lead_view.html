@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div class="md:flex">
+        <div class="p-8">
+            <div class="flex justify-between">
+                <h1 class="text-xl font-semibold mb-4">{{ lead.enquiry_number }} <span
+                        class="text-sm text-emerald-700 px-2 py-1 rounded-md">{{ lead.status
+                        }}</span></h1>
+                <div class="justify-end">
+                    <a href="{{ url_for('quote_entry', lead_id=lead.enquiry_number) }}"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add
+                        Quote</a>
+                    <a href="{{ url_for('lead_edit', lead=lead) }}"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit
+                        Lead</a>
+                </div>
+            </div>
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Customer Details</div>
+            <div class="mt-2 text-gray-900">{{ lead.customer.name }}</div>
+            <div class="flex mt-4">
+                <div class="w-1/3">
+                    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Salesperson</div>
+                    <div class="mt-2 text-gray-900">{{ lead.sales_account_mgr.name }}</div>
+                </div>
+                <div class="w-1/3">
+                    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Presales</div>
+                    <div class="mt-2 text-gray-900">{{ lead.presales_support.name }}</div>
+                </div>
+            </div>
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mt-4">Product Details</div>
+            <div class="mt-2 text-gray-900">{{ lead.product_details }}</div>
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mt-4">Product Description</div>
+            <div class="mt-2 text-gray-900">{{ lead.product_description }}</div>
+            <div class="flex mt-4">
+                <div class="w-1/3">
+                    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Estimate Cost</div>
+                    <div class="mt-2 text-gray-900">{{ lead.estimate_cost }}</div>
+                </div>
+                <div class="w-1/3">
+                    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Closure Date</div>
+                    <div class="mt-2 text-gray-900">{{ lead.closure_date }}</div>
+                </div>
+            </div>
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mt-4">Remarks</div>
+            <div class="mt-2 text-gray-900">{{ lead.remarks }}</div>
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mt-4">Revised Quotation History
+            </div>
+            <div class="mt-2 text-gray-900">
+                <ul class="list-disc list-inside space-y-4">
+                    {% for item in quote_list %}
+                    <li class="text-gray-900">
+                        <span class="font-semibold">{{ item.quote_id }}</span> - version <span class="font-semibold">{{
+                            item.quote_version }}</span><br>
+                        <a href="{{ url_for('quote_view', quote_id=item.quote_id, quote_version=item.quote_version, type=1) }}"
+                            class="text-blue-600 hover:text-blue-800">Company Quote View</a><br>
+                        <a href="{{ url_for('quote_view', quote_id=item.quote_id, quote_version=item.quote_version, type=2) }}"
+                            class="text-blue-600 hover:text-blue-800">Customer Quote View</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

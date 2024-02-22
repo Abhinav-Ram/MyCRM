@@ -1,2 +1,3 @@
-# MyCRM
-A Sales CRM made using Python Flask and SQLite3
+# Sales CRM
+
+Flask App to generate leads, quotations, etc

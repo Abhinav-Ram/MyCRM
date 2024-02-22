@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="min-h-screen bg-base-200">
+    <a href="{{url_for('lead_entry')}}" class="m-4 btn btn-primary">New Entry</a>
+    <a href="{{url_for('download_leads')}}" class="m-4 btn btn-primary">Download Leads</a>
+    <table class="min-w-75 ml-4 mr-4 divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Enquiry Number
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Customer Details
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Product Details
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Product Description
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for lead_entry in lead_entries %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900"><a
+                            href="{{ url_for('lead_view', lead_id=lead_entry.enquiry_number) }}"
+                            class="link link-primary">{{ lead_entry.enquiry_number }}</a></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ lead_entry.customer.name }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ lead_entry.product_details }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ lead_entry.product_description }}</div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{
+    "name": "Purple Cube Technologies Pvt. Ltd",
+    "slogan": "Vibrantly Thinking Out of the box...",
+    "address": {
+      "door_no": "Door No. 15",
+      "flat_no": "17/2",
+      "floor": "Ground Floor",
+      "street": "Porur Somasundaram St",
+      "area": "T. Nagar",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "postal_code": "600 017",
+      "country": "India"
+    },
+    "phone": "+91 7338864555",
+    "email": "info@purplecubetech.com",
+    "gst":"GST12345",
+    "gstpercent":18
+  }
+  

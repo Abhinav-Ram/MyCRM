@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold text-center my-8">Sales Quotation Form</h1>
+<form action="{{ url_for('quote_entry_success') }}" id="quotationForm"
+    class="max-w-6xl mx-auto bg-white p-8 rounded shadow-md">
+    <div class="mb-4">
+        <label for="quotationNo" class="block mb-2">Quotation No.</label>
+        <input name="quotationNo" type="text" id="quotationNo" required class="w-full px-4 py-2 border rounded"
+            value="{{ lead.enquiry_number }}" readonly>
+    </div>
+
+    <div class="mb-4">
+        <label for="vendorName" class="block mb-2">Salesperson Name</label>
+        <input name="vendorName" type="text" id="vendorName" required class="w-full px-4 py-2 border rounded"
+            value="{{ lead.sales_account_mgr.name }}" readonly>
+    </div>
+
+    <div class="mb-4">
+        <label for="clientName" class="block mb-2">Customer Name</label>
+        <input name="clientName" type="text" id="clientName" required class="w-full px-4 py-2 border rounded"
+            value="{{ lead.customer.name }}" readonly>
+    </div>
+
+    <div class="mb-4 grid grid-cols-2 gap-4">
+        <div>
+            <label for="billingDate" class="block mb-2">Billing Date</label>
+            <input name="billingDate" type="date" id="billingDate" required class="w-full px-4 py-2 border rounded"
+                value="{{ today }}" readonly>
+        </div>
+        <div>
+            <label for="paymentDueDate" class="block mb-2">Commit Date</label>
+            <input name="paymentDueDate" type="date" id="paymentDueDate" class="w-full px-4 py-2 border rounded"
+                value="{{ lead.closure_date }}">
+        </div>
+    </div>
+
+    <table id="productTable" class="w-full mb-4">
+        <thead>
+            <tr>
+                <th class="px-4 py-2">Product Name</th>
+                <th class="px-4 py-2">Product Description</th>
+                <th class="px-4 py-2">Quantity</th>
+                <th class="px-4 py-2">UOM</th>
+                <th class="px-4 py-2">Unit Rate (Rs.)</th>
+                <th class="px-4 py-2">Amount (Rs.)</th>
+                <th class="px-4 py-2">Margin Type (P/A)</th>
+                <th class="px-4 py-2">Margin Amount</th>
+                <th class="px-4 py-2">Total (Rs.)</th>
+                <th class="px-4 py-2">Action</th>
+            </tr>
+        </thead>
+        <tbody class="productTableBody">
+
+        </tbody>
+    </table>
+
+    <div class="mb-4">
+        <label for="taxRate" class="block mb-2">Tax Rate (GST %)</label>
+        <input type="number" id="taxRate" required class="w-full px-4 py-2 border rounded" value="{{ gst }}" readonly>
+    </div>
+
+    <button type="button" id="addRow" class="mb-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add
+        Product</button>
+
+    <div class="mb-4">
+        <p class="mb-2">Subtotal: <span id="subtotal">0.00</span> Rs.</p>
+        <p class="mb-2">Tax: <span id="tax">0.00</span> Rs.</p>
+        <h2 class="font-bold">Total: <span id="overall">0.00</span> Rs.</h2>
+    </div>
+
+    <button id="generateQuotation" type="submit"
+        class="px-8 py-3 bg-green-500 text-white rounded hover:bg-green-600">Generate Quotation</button>
+</form>
+
+{% endblock %}

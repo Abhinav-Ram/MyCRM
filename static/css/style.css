@@ -1,0 +1,7 @@
+:root {
+    --pctpurple: #700066;
+}
+
+.pctcolor {
+    color: var(--pctpurple);
+}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero min-h-screen bg-base-200">
+    <form method="POST" class="max-w-md w-full mx-auto p-6 bg-white shadow-md rounded-md">
+        {{ form.hidden_tag() }}
+        <div class="mb-y">
+            {{ form.customer_details.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.customer_details(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+            focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-y">
+            {{ form.product_details.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.product_details(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+            focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.product_description.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.product_description(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+            focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.sales_account_mgr.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.sales_account_mgr(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+            focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.presales_support.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.presales_support(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+            focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.remarks.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.remarks(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500
+            focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.status.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.status(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500
+            focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.estimate_cost.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.estimate_cost(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500
+            focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="mb-4">
+            {{ form.closure_date.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.closure_date(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500
+            focus:ring focus:ring-indigo-200 focus:ring-opacity-50") }}
+        </div>
+        <div class="fixed bottom-0 right-0 p-4">
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Save</button>
+            <a href="{{ url_for('lead_view', lead_id=lead_id) }}"
+                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</a>
+        </div>
+    </form>
+
+
+</div>
+{% endblock %}
